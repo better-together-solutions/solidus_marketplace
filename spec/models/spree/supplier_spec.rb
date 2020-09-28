@@ -5,6 +5,7 @@ describe Spree::Supplier do
   it { is_expected.to respond_to(:products) }
   it { is_expected.to respond_to(:stock_locations) }
   it { is_expected.to respond_to(:variants) }
+  it { is_expected.to respond_to(:questions) }
 
   it '#deleted?' do
     subject.deleted_at = nil

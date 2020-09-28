@@ -21,6 +21,7 @@ module Spree
     has_many :stock_locations, dependent: :destroy
     has_many :shipments, through: :stock_locations
     has_many :admins, class_name: Spree.user_class.to_s
+    has_many :questions, class_name: 'Spree::Question'
     accepts_nested_attributes_for :admins
 
     validates :commission_flat_rate, presence: true

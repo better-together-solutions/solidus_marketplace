@@ -24,5 +24,24 @@ module SolidusMarketplace
 
       mattr_reader(:supplier_attributes)
     end
+
+    def question_attributes
+      %i[
+        id
+        question_text
+        created_by_id
+        supplier_id
+        product_id
+      ]
+    end
+
+    def answer_attributes
+      %i[
+        id
+        answer_text
+        question_id
+        user_id
+      ]
+    end
   end
 end
