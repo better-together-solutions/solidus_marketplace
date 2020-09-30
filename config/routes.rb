@@ -17,9 +17,14 @@ Spree::Core::Engine.routes.draw do
         put :addcard
       end
     end
+
+    resources :questions, only: %i[index]
   end
 
-  namespace :api do
+  namespace :api, defaults: { format: :json } do
     resources :suppliers, only: :index
+    resources :questions do
+      resources :answers
+    end
   end
 end

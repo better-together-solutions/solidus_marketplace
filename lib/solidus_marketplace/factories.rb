@@ -110,4 +110,16 @@ FactoryBot.define do
       end
     end
   end
+
+  factory :question, class: 'Spree::Question' do
+    supplier { create(:supplier) }
+    question_text { 'Do you deliver to my home?' }
+    created_by { create(:user) }
+  end
+
+  factory :answer, class: 'Spree::Answer' do
+    answer_text { 'foo' }
+    question { create(:question) }
+    user { create(:user) }
+  end
 end
