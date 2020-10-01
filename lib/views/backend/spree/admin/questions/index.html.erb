@@ -1,0 +1,41 @@
+<% admin_layout "full-width" %>
+
+<% admin_breadcrumb(plural_resource_name(Spree::Question)) %>
+
+<%= paginate @questions, theme: "solidus_admin" %>
+<% if @questions.any? %>
+  <table class="index" id="listing_questions" data-hook>
+    <thead>
+      <tr data-hook="admin_questions_index_headers">
+        <th><%= sort_link @search, :question_text %></th>
+        <th><%= sort_link @search, :created_at %></th>
+        <th><%= sort_link @search, :created_by %></th>
+        <th><%= sort_link @search, :published %></th>
+        <th><%= sort_link @search, :resolved %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @questions.each do |question| %>
+        <tr class='question' data-id='<%= question.id %>'>
+          <td><%= question.question_text %></td>
+          <td><%= question.created_at %></td>
+          <td><%= question.created_by.email %></td>
+          <td><%= question.published %></td>
+          <td><%= question.resolved %></td>
+          <td><%= link_to t('spree.questions.reply'), '#', class: 'btn btn-primary', data: { toggle: 'modal', target: "#modal-question#{question.id}"} %></td>
+        </tr>
+          <%= render 'question_modal',
+            question: question,
+            target: "modal-question#{question.id}"
+          %>
+      <% end %>
+    </tbody>
+<% else %>
+  <div class="no-objects-found">
+    <% if can? :manage, Spree::Question %>
+      <%= render 'spree/admin/shared/no_objects_found',
+                   resource: Spree::Question %>
+    <% end %>
+  </div>
+<% end %>
+<%= paginate @questions, theme: "solidus_admin" %>

@@ -128,3 +128,6 @@ en:
     user_admin: Admin User
     remove_payment_method: Remove payment method
     add_payment_method: Add payment method
+    questions:
+      title: Questions
+      reply: Reply

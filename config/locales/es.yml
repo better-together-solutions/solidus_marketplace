@@ -125,3 +125,6 @@ es:
     user_admin: Usuario administrador
     remove_payment_method: Remover método de pago
     add_payment_method: Agregar método de pago
+    questions:
+      title: Preguntas
+      reply: Contestar
