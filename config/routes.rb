@@ -6,7 +6,6 @@ Spree::Core::Engine.routes.draw do
     resources :reports, only: [:index] do
       collection do
         get   :earnings
-        post  :earnings
       end
     end
 

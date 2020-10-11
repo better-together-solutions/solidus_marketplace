@@ -14,7 +14,7 @@ gem 'rails', '>0.a'
 # Provides basic authentication functionality for testing parts of your engine
 gem 'solidus_auth_devise'
 
-# gem 'solidus_reports', github: 'solidusio-contrib/solidus_reports'
+gem 'solidus_reports', github: 'solidusio-contrib/solidus_reports'
 
 case ENV['DB']
 when 'mysql'
