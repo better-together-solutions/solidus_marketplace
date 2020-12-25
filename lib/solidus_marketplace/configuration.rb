@@ -11,4 +11,16 @@ module SolidusMarketplace
     # Determines whether or not to email a new supplier their welcome email.
     preference :send_supplier_email, :boolean, default: true
   end
+
+  class << self
+    def configuration
+      @configuration ||= Configuration.new
+    end
+
+    alias config configuration
+
+    def configure
+      yield configuration
+    end
+  end
 end

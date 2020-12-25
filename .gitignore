@@ -1,12 +1,10 @@
+*.gem
 \#*
 *~
 .#*
-.bundle
 .DS_Store
 .idea
 .project
-.ruby-gemset
-.ruby-version
 .sass-cache
 coverage
 Gemfile.lock
@@ -15,5 +13,8 @@ nbproject
 pkg
 *.swp
 spec/dummy
-spec/vcr_cassettes
 spec/examples.txt
+/sandbox
+.rvmrc
+.ruby-version
+.ruby-gemset

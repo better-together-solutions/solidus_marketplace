@@ -1,35 +1,43 @@
 # frozen_string_literal: true
 
-lib = File.expand_path('../lib/', __FILE__)
-$:.unshift lib unless $:.include?(lib)
-require 'solidus_marketplace/version'
+require_relative 'lib/solidus_marketplace/version'
 
-Gem::Specification.new do |s|
-  s.platform = Gem::Platform::RUBY
-  s.name = 'solidus_marketplace'
-  s.version = SolidusMarketplace::VERSION
-  s.summary = 'Solidus Marketplace Extension'
-  s.description = 'Adds marketplace functionality to Solidus stores.'
-  s.required_ruby_version = '>= 2.0'
+Gem::Specification.new do |spec|
+  spec.name = 'solidus_marketplace'
+  spec.version = SolidusMarketplace::VERSION
+  spec.authors = ['Jonathan Tapia']
+  spec.email = 'jonathan.tapia@magmalabs.io'
 
-  s.author = 'Jonathan Tapia'
-  s.email = 'jonathan.tapia@magmalabs.io'
-  s.homepage = 'https://github.com/jtapia/solidus_marketplace'
+  spec.summary = 'Solidus Marketplace Extension'
+  spec.description = 'Adds marketplace functionality to Solidus stores.'
+  spec.homepage = 'https://github.com/magma-labs/solidus_marketplace'
+  spec.license = 'BSD-3-Clause'
 
-  s.files = `git ls-files`.split("\n")
-  s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.require_path = 'lib'
-  s.requirements << 'none'
+  spec.metadata['homepage_uri'] = spec.homepage
+  spec.metadata['source_code_uri'] = 'https://github.com/magma-labs/solidus_marketplace'
+  spec.metadata['changelog_uri'] = 'https://github.com/magma-labs/solidus_marketplace/blob/master/CHANGELOG.md'
 
-  s.add_dependency 'solidus', ['>= 2.2', '< 3']
-  s.add_dependency 'solidus_support'
-  s.add_dependency 'deface', '~> 1.0'
+  spec.required_ruby_version = Gem::Requirement.new('~> 2.5')
 
-  s.add_development_dependency 'simplecov'
-  s.add_development_dependency 'coffee-rails'
-  s.add_development_dependency 'poltergeist'
-  s.add_development_dependency 'sass-rails'
-  s.add_development_dependency 'solidus_dev_support'
-  s.add_development_dependency 'vcr'
-  s.add_development_dependency 'webmock'
+  # Specify which files should be added to the gem when it is released.
+  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
+  files = Dir.chdir(__dir__) { `git ls-files -z`.split("\x0") }
+
+  spec.files = files.grep_v(%r{^(test|spec|features)/})
+  spec.test_files = files.grep(%r{^(test|spec|features)/})
+  spec.bindir = "exe"
+  spec.executables = files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.require_paths = ["lib"]
+
+  spec.add_dependency 'solidus_core', ['>= 2.2', '< 3']
+  spec.add_dependency 'solidus_support', '~> 0.5'
+  spec.add_dependency 'deface', '~> 1.0'
+
+  spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'coffee-rails'
+  spec.add_development_dependency 'poltergeist'
+  spec.add_development_dependency 'sass-rails'
+  spec.add_development_dependency 'solidus_dev_support', '~> 2.2'
+  spec.add_development_dependency 'vcr'
+  spec.add_development_dependency 'webmock'
 end
