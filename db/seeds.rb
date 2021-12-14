@@ -1,9 +1,8 @@
-# Loads seed data out of default dir
-default_path = File.join(File.dirname(__FILE__), 'default')
+# frozen_string_literal: true
 
 %w(
   marketplace_roles
 ).each do |seed|
-  puts "Loading seed file: #{seed}"
+  Rails.logger.debug "Loading seed file: #{seed}"
   require_relative "default/spree/#{seed}"
 end

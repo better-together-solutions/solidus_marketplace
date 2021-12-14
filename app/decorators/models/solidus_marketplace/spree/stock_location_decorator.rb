@@ -5,14 +5,14 @@ module SolidusMarketplace
     module StockLocationDecorator
       def self.prepended(base)
         base.belongs_to :supplier, class_name: '::Spree::Supplier', optional: true
-        base.scope :by_supplier, -> (supplier_id) { where(supplier_id: supplier_id) }
+        base.scope :by_supplier, ->(supplier_id) { where(supplier_id: supplier_id) }
       end
 
       # Wrapper for creating a new stock item respecting the backorderable config and supplier
       def propagate_variant(variant)
-        if self.supplier_id.blank? || variant.suppliers.pluck(:id).include?(self.supplier_id)
-          self.stock_items.create!(variant: variant, backorderable: self.backorderable_default)
-        end
+        return unless supplier_id.blank? || variant.suppliers.pluck(:id).include?(supplier_id)
+
+        stock_items.create!(variant: variant, backorderable: backorderable_default)
       end
 
       def unpropagate_variant(variant)

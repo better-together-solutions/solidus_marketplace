@@ -1,23 +1,28 @@
+# frozen_string_literal: true
+
 Deface::Override.new(
   virtual_path: "spree/admin/shipments/index",
   name: "add_supplier_to_admin_shipments",
   insert_before: '[data-hook="admin_shipments_index_header_actions"]',
+  # rubocop:disable Layout/LineLength
   text: "<th><%= sort_link @search, :supplier_commission,  Spree::Shipment.human_attribute_name(:supplier_commission) %></th>",
+  # rubocop:enable Layout/LineLength
   disabled: false
 )
 Deface::Override.new(
-    virtual_path: "spree/admin/shipments/index",
-    name: "add_supplier_to_admin_shipments2",
-    insert_before: '[data-hook="admin_shipments_index_row_actions"]',
-    text: "<td><%= Spree::Money.new(shipment.supplier_commission, currency: shipment.currency).to_html %></td>",
-    disabled: false
+  virtual_path: "spree/admin/shipments/index",
+  name: "add_supplier_to_admin_shipments2",
+  insert_before: '[data-hook="admin_shipments_index_row_actions"]',
+  text: "<td><%= Spree::Money.new(shipment.supplier_commission, currency: shipment.currency).to_html %></td>",
+  disabled: false
 )
 
 Deface::Override.new(
-    virtual_path: "spree/admin/shipments/edit",
-    name: "add_supplier_to_admin_shipments3",
-    insert_before: '[data-hook="admin_shipment_form_fields"]',
-    text: "<% if spree_current_user.admin? && @shipment.supplier.present? %>
+  virtual_path: "spree/admin/shipments/edit",
+  name: "add_supplier_to_admin_shipments3",
+  insert_before: '[data-hook="admin_shipment_form_fields"]',
+  # rubocop:disable Layout/LineLength
+  text: "<% if spree_current_user.admin? && @shipment.supplier.present? %>
             <div data-hook='admin_shipment_supplier' class='row'>
               <fieldset class='col-md-12 no-border-bottom'>
                 <legend align='center'><%= Spree.t(:supplier_information) %></legend>
@@ -33,6 +38,6 @@ Deface::Override.new(
               </fieldset>
             </div>
           <% end %>",
-    disabled: false
+  # rubocop:enable Layout/LineLength
+  disabled: false
 )
-

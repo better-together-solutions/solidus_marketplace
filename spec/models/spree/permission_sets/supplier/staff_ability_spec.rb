@@ -4,7 +4,9 @@ require 'cancan'
 require 'cancan/matchers'
 require 'spree/testing_support/ability_helpers'
 
-describe Spree::PermissionSets::Supplier::AdminAbility do
+describe Spree::PermissionSets::Supplier::StaffAbility do
+  subject { ability }
+
   let(:ability) { Spree::Ability.new(user) }
   let(:supplier) { create(:supplier) }
   let(:supplier_staff_role) { build(:role, name: 'supplier_staff') }
@@ -14,15 +16,13 @@ describe Spree::PermissionSets::Supplier::AdminAbility do
   let(:variant) { product.master }
   let(:other_supplier) { create(:supplier) }
 
-  subject { ability }
-
-  before(:each) do
+  before do
     user.spree_roles << supplier_staff_role
     described_class.new(ability).activate!
   end
 
-  context 'for Product' do
-    context 'requested by another suppliers user' do
+  context 'with Product' do
+    context 'when requested by another suppliers user' do
       let(:other_resource) { create(:product) }
 
       before do
@@ -30,29 +30,29 @@ describe Spree::PermissionSets::Supplier::AdminAbility do
         other_resource.reload
       end
 
-      it { expect(ability).to_not be_able_to :read, other_resource }
-      it { expect(ability).to_not be_able_to :admin, other_resource }
-      it { expect(ability).to_not be_able_to :edit, other_resource }
+      it { expect(ability).not_to be_able_to :read, other_resource }
+      it { expect(ability).not_to be_able_to :admin, other_resource }
+      it { expect(ability).not_to be_able_to :edit, other_resource }
     end
 
-    context 'requested by suppliers user' do
+    context 'when requested by suppliers user' do
       let(:resource) { create(:product) }
 
-      before(:each) do
+      before do
         resource.add_supplier!(user.supplier)
         resource.reload
       end
-  
+
       it { expect(ability).to be_able_to :read, resource }
       it { expect(ability).to be_able_to :admin, resource }
       it { expect(ability).to be_able_to :edit, resource }
     end
   end
 
-  context 'for StockItem' do
+  context 'with StockItem' do
     let(:resource) { Spree::StockItem }
 
-    context 'requested by another suppliers user' do
+    context 'when requested by another suppliers user' do
       let(:resource) {
         other_supplier.stock_locations.first.stock_items.first
       }
@@ -60,11 +60,11 @@ describe Spree::PermissionSets::Supplier::AdminAbility do
       before do
         variant.product.add_supplier! other_supplier
       end
-      
-      it { expect(ability).to_not be_able_to :admin, resource }
+
+      it { expect(ability).not_to be_able_to :admin, resource }
     end
 
-    context 'requested by suppliers user' do
+    context 'when requested by suppliers user' do
       let(:resource) {
         user.supplier.stock_locations.first.stock_items.first
       }
@@ -77,8 +77,8 @@ describe Spree::PermissionSets::Supplier::AdminAbility do
     end
   end
 
-  context 'for StockLocation' do
-    context 'requested by another suppliers user' do
+  context 'with StockLocation' do
+    context 'when requested by another suppliers user' do
       let(:resource) {
         other_supplier.stock_locations.first
       }
@@ -87,10 +87,10 @@ describe Spree::PermissionSets::Supplier::AdminAbility do
         variant.product.add_supplier! other_supplier
       end
 
-      it { expect(ability).to_not be_able_to :read, resource }
+      it { expect(ability).not_to be_able_to :read, resource }
     end
 
-    context 'requested by suppliers user' do
+    context 'when requested by suppliers user' do
       let(:resource) {
         user.supplier.stock_locations.first
       }

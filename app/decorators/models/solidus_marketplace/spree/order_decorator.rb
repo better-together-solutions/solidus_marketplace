@@ -19,7 +19,7 @@ module SolidusMarketplace
         suppliers.map do |s|
           {
             name: s.name,
-            earnings: self.supplier_total(s),
+            earnings: supplier_total(s),
             paypal_email: s.paypal_email
           }
         end
@@ -27,20 +27,21 @@ module SolidusMarketplace
 
       # Once order is finalized we want to notify the suppliers of their drop ship orders.
       # Here we are handling notification by emailing the suppliers.
-      # If you want to customize this you could override it as a hook for notifying a supplier with a API request instead.
+      # If you want to customize this you could override it as a hook for notifying
+      # a supplier with a API request instead.
       def finalize_with_supplier!
         finalize_without_supplier!
         shipments.each do |shipment|
-          if SolidusMarketplace::Config.send_supplier_email && shipment.supplier.present?
-            begin
-              Spree::MarketplaceOrderMailer.supplier_order(shipment.id).deliver!
-            rescue => ex #Errno::ECONNREFUSED => ex
-              puts ex.message
-              puts ex.backtrace.join("\n")
-              Rails.logger.error ex.message
-              Rails.logger.error ex.backtrace.join("\n")
-              return true # always return true so that failed email doesn't crash app.
-            end
+          next unless SolidusMarketplace::Config.send_supplier_email && shipment.supplier.present?
+
+          begin
+            Spree::MarketplaceOrderMailer.supplier_order(shipment.id).deliver!
+          rescue StandardError => e # Errno::ECONNREFUSED => ex
+            Rails.logger.debug e.message
+            Rails.logger.debug e.backtrace.join("\n")
+            Rails.logger.error e.message
+            Rails.logger.error e.backtrace.join("\n")
+            return true # always return true so that failed email doesn't crash app.
           end
         end
       end

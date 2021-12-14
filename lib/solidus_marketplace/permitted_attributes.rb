@@ -7,6 +7,7 @@
 module SolidusMarketplace
   module PermittedAttributes
     class << self
+      # rubocop:disable Style/ClassVars
       @@supplier_attributes = [
         :id,
         :address_id,
@@ -21,6 +22,7 @@ module SolidusMarketplace
         :slug,
         :paypal_email
       ]
+      # rubocop:enable Style/ClassVars
     end
 
     mattr_reader(:supplier_attributes)

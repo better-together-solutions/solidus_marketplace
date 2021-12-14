@@ -6,31 +6,32 @@ module Spree
   module PermissionSets
     module Supplier
       class StaffAbility < PermissionSets::Base
-
         def activate!
-          cannot %i[read], 
-              Spree::Product
+          cannot %i[read],
+            Spree::Product
 
           can %i[read admin edit],
-              Spree::Product,
-              suppliers: { id: user.supplier_id }
+            Spree::Product,
+            suppliers: { id: user.supplier_id }
 
           can %i[admin manage],
-              Spree::StockItem,
-              stock_location_id: supplier_stock_location_ids
+            Spree::StockItem,
+            stock_location_id: supplier_stock_location_ids
 
-          cannot %i[read], 
-              Spree::StockLocation
+          cannot %i[read],
+            Spree::StockLocation
 
           can :read,
-              Spree::StockLocation,
-              id: supplier_stock_location_ids
+            Spree::StockLocation,
+            id: supplier_stock_location_ids
         end
 
         private
 
         def supplier_stock_location_ids
+          # rubocop:disable Naming/MemoizedInstanceVariableName
           @ids ||= user.supplier.stock_locations.pluck(:id)
+          # rubocop:enable Naming/MemoizedInstanceVariableName
         end
       end
     end

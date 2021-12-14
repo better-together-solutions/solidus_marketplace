@@ -1,25 +1,29 @@
+# frozen_string_literal: true
+
 module Spree
   module Admin
     class SuppliersController < Spree::Admin::ResourceController
+      # rubocop:disable Rails/LexicallyScopedActionFilter
       before_action :set_address, only: [:update]
       before_action :build_address, only: [:edit, :new]
+      # rubocop:enable Rails/LexicallyScopedActionFilter
 
       private
 
       def set_address
         @object.address = Spree::Address.immutable_merge(@object.address,
-                                                         permitted_resource_params.delete(:address_attributes))
+          permitted_resource_params.delete(:address_attributes))
       end
 
       def build_address
-        @object.address = Spree::Address.build_default unless @object.address.present?
+        @object.address = Spree::Address.build_default if @object.address.blank?
       end
 
       def collection
         params[:q] ||= {}
         @search = Spree::Supplier.search(params[:q])
         @collection = @search.result.includes(:admins).page(params[:page]).
-          per(Spree::Config[:orders_per_page])
+                      per(Spree::Config[:orders_per_page])
       end
 
       def find_resource

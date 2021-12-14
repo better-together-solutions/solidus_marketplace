@@ -11,8 +11,8 @@ FactoryBot.define do
     # so that we can run tests with backorderable defaulting to true.
     before :create do |supplier|
       supplier.stock_locations << build(:stock_location,
-                                        name: supplier.name,
-                                        supplier: supplier)
+        name: supplier.name,
+        supplier: supplier)
     end
 
     factory :supplier_with_commission do
@@ -40,7 +40,7 @@ FactoryBot.define do
   factory :supplier_staff, parent: :user do
     supplier
 
-    after :create do |user| 
+    after :create do |user|
       user.spree_roles << create(:supplier_staff_role)
     end
   end
@@ -63,13 +63,12 @@ FactoryBot.define do
       supplier = create(:supplier)
       product = create(:product)
       product.add_supplier! supplier
-      product_2 = create(:product)
-      product_2.add_supplier! create(:supplier)
+      product2 = create(:product)
+      product2.add_supplier! create(:supplier)
 
       create_list(:line_item, evaluator.line_items_count,
         order: order,
-        variant: product_2.master
-      )
+        variant: product2.master)
 
       order.line_items.reload
       create(:shipment, order: order, stock_location: supplier.stock_locations.first)
@@ -82,7 +81,7 @@ FactoryBot.define do
 
       after(:create) do |order|
         order.refresh_shipment_rates
-        order.update_column(:completed_at, Time.now)
+        order.update(completed_at: Time.zone.now)
       end
 
       factory :order_from_supplier_ready_to_ship do
@@ -92,8 +91,8 @@ FactoryBot.define do
         after(:create) do |order|
           create(:payment, amount: order.total, order: order, state: 'completed')
           order.shipments.each do |shipment|
-            shipment.inventory_units.each { |u| u.update_column('state', 'on_hand') }
-            shipment.update_column('state', 'ready')
+            shipment.inventory_units.each { |u| u.update(state: 'on_hand') }
+            shipment.update(state: 'ready')
           end
           order.reload
         end
@@ -101,8 +100,8 @@ FactoryBot.define do
         factory :shipped_order_from_supplier do
           after(:create) do |order|
             order.shipments.each do |shipment|
-              shipment.inventory_units.each { |u| u.update_column('state', 'shipped') }
-              shipment.update_column('state', 'shipped')
+              shipment.inventory_units.each { |u| u.update(state: 'shipped') }
+              shipment.update(state: 'shipped')
             end
             order.reload
           end

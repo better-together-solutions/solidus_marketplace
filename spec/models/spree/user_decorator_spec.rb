@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
+# rubocop:disable RSpec/DescribeClass
 describe Spree.user_class do
+  # rubocop:enable RSpec/DescribeClass
+  let(:supplier_admin_role) { build(:role, name: 'supplier_admin') }
+  let(:admin_role) { build :admin_role }
+  let(:user) { build :user }
+
   it { is_expected.to respond_to(:supplier) }
   it { is_expected.to respond_to(:variants) }
-
-  let(:user) { build :user }
-  let(:admin_role) { build :admin_role }
-  let(:supplier_admin_role) { build(:role, name: 'supplier_admin') }
 
   describe '#supplier?' do
     it 'returns true if user is a supplier' do
@@ -41,14 +43,14 @@ describe Spree.user_class do
     end
   end
 
-  describe '#has_admin_role?' do
+  describe '#admin_role?' do
     it 'returns false if user is not an admin' do
-      expect(user.has_admin_role?).to eq false
+      expect(user.admin_role?).to eq false
     end
 
     it 'returns true if user is an admin' do
       user.spree_roles << admin_role
-      expect(user.has_admin_role?).to eq true
+      expect(user.admin_role?).to eq true
     end
   end
 end

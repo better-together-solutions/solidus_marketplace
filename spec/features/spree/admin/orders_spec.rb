@@ -9,7 +9,6 @@ describe 'Admin - Orders', type: :feature do
     fill_in 'spree_user[email]', with: user.email
     fill_in 'spree_user[password]', with: user.password
     click_button 'Login'
-    expect(page).to_not have_content 'Login'
 
     visit spree.admin_orders_path
     expect(page).to have_content('Authorization Failure')

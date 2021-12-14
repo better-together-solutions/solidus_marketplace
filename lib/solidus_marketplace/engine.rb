@@ -21,15 +21,17 @@ module SolidusMarketplace
       app.config.spree.stock_splitters << Spree::Stock::Splitter::Marketplace
     end
 
-    initializer 'solidus_marketplace.preferences', before: :load_config_initializers  do |app|
+    initializer 'solidus_marketplace.preferences', before: :load_config_initializers do |_app|
       SolidusMarketplace::Config = SolidusMarketplace.config
       Spree::PermittedAttributes.singleton_class.prepend(SolidusMarketplace::PermittedAttributes)
       Spree::Config.roles.assign_permissions :supplier_admin, ['Spree::PermissionSets::Supplier::AdminAbility']
-      Spree::Config.roles.assign_permissions :supplier_staff, ['Spree::PermissionSets::Supplier::StaffAbility', 'Spree::PermissionSets::OrderManagement']
+      Spree::Config.roles.assign_permissions :supplier_staff,
+        ['Spree::PermissionSets::Supplier::StaffAbility', 'Spree::PermissionSets::OrderManagement']
     end
 
     initializer 'solidus_marketplace' do
       next unless ::Spree::Backend::Config.respond_to?(:menu_items)
+
       ::Spree::Backend::Config.configure do |config|
         config.menu_items << Spree::BackendConfiguration::MenuItem.new(
           [:stock_locations],

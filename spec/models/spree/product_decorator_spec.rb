@@ -8,7 +8,6 @@ describe Spree::Product do
   describe '#add_supplier!' do
     context 'when passed a supplier' do
       it "adds the supplier to product's list of supppliers" do
-        expect(product.suppliers).to be_empty
         product.add_supplier!(supplier1)
         expect(product.reload.suppliers).to include(supplier1)
       end
@@ -16,7 +15,6 @@ describe Spree::Product do
 
     context 'when passed a supplier_id' do
       it "adds the supplier to product's list of supppliers" do
-        expect(product.suppliers).to be_empty
         product.add_supplier!(supplier2.id)
         expect(product.reload.suppliers).to include(supplier2)
       end
@@ -24,28 +22,36 @@ describe Spree::Product do
   end
 
   describe '#add_suppliers!' do
-    it "adds multiple suppliers to the product's list of suppliers" do
-      expect(product.suppliers).to be_empty
+    before do
       product.add_suppliers!([supplier1.id, supplier2.id])
+    end
+
+    it "add supplier1 to the product's list of suppliers" do
       expect(product.reload.suppliers).to include(supplier1)
+    end
+
+    it "add supplier2 to the product's list of suppliers" do
       expect(product.reload.suppliers).to include(supplier2)
     end
   end
 
   describe '#remove_suppliers!' do
-    it "removes multiple suppliers from the product's list of suppliers" do
+    before do
       product.add_suppliers!([supplier1.id, supplier2.id])
-      expect(product.reload.suppliers).to include(supplier1)
-      expect(product.reload.suppliers).to include(supplier2)
+    end
 
+    it "removes multiple suppliers from the product's list of suppliers" do
       product.remove_suppliers!([supplier1.id, supplier2.id])
       expect(product.suppliers).to be_empty
     end
   end
 
   describe '#supplier?' do
-    it 'returns true if one or more suppliers are present' do
+    it 'return false as default' do
       expect(product.supplier?).to eq false
+    end
+
+    it 'returns true if one or more suppliers are present' do
       product.add_supplier!(create(:supplier))
       expect(product.reload.supplier?).to eq true
     end

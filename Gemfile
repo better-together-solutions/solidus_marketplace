@@ -26,8 +26,8 @@ else
 end
 
 group :development, :test do
-  gem 'pry-rails'
   gem 'byebug'
+  gem 'pry-rails'
 end
 
 gemspec

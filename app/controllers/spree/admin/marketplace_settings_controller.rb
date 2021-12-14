@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Spree
   module Admin
     class MarketplaceSettingsController < Spree::Admin::BaseController
@@ -10,6 +12,7 @@ module Spree
 
         params.each do |name, value|
           next unless config.has_preference? name
+
           config[name] = value
         end
 

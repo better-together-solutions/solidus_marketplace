@@ -11,7 +11,7 @@ module SolidusMarketplace
         end
 
         def earnings
-          @supplier_earnings = get_supplier_earnings
+          @supplier_earnings = supplier_earnings
 
           respond_to do |format|
             format.html
@@ -27,9 +27,9 @@ module SolidusMarketplace
             csv << header1
             csv << header2
             @supplier_earnings.each do |se|
-              csv << ["#{se[:name]}",
-                      "#{se[:earnings].to_html}",
-                      "#{se[:paypal_email]}"]
+              csv << [(se[:name]).to_s,
+                      se[:earnings].to_html.to_s,
+                      (se[:paypal_email]).to_s]
             end
           end
         end
@@ -46,7 +46,7 @@ module SolidusMarketplace
           [:earnings]
         end
 
-        def get_supplier_earnings
+        def supplier_earnings
           grouped_supplier_earnings.each do |se|
             se[:earnings] = se[:earnings].inject(Spree::Money.new(0)) do |e, c|
               c + e
@@ -62,7 +62,7 @@ module SolidusMarketplace
 
           supplier_earnings_map = @orders.map(&:supplier_earnings_map)
           grouped_suppliers_map = supplier_earnings_map.flatten.group_by(&:name).values
-          grouped_earnings = grouped_suppliers_map.map do |gs|
+          grouped_suppliers_map.map do |gs|
             h = {}
             h[:name] = nil
             h[:paypal_email] = nil
@@ -74,8 +74,6 @@ module SolidusMarketplace
             end
             h
           end
-
-          grouped_earnings
         end
 
         if defined?(SolidusReports::Engine)

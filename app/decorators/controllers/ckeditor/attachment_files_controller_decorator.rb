@@ -7,16 +7,15 @@ module Ckeditor
       base.after_filter :set_supplier, only: [:create]
     end
 
-    def index
-    end
+    def index; end
 
     private
 
     def set_supplier
-      if try_spree_current_user.supplier? and @attachment
-        @attachment.supplier = try_spree_current_user.supplier
-        @attachment.save
-      end
+      return unless try_spree_current_user.supplier? && @attachment
+
+      @attachment.supplier = try_spree_current_user.supplier
+      @attachment.save
     end
 
     if defined?(Ckeditor::AttachmentFilesController)

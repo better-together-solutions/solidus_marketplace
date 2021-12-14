@@ -4,6 +4,7 @@ module SolidusMarketplace
   module Spree
     module Api
       module ApiHelpersDecorator
+        # rubocop:disable Style/ClassVars
         @@supplier_attributes = [
           :id,
           :address_id,
@@ -17,6 +18,7 @@ module SolidusMarketplace
           :token,
           :slug
         ]
+        # rubocop:enable Style/ClassVars
 
         mattr_reader(:supplier_attributes)
 

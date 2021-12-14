@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Spree
   class MarketplaceOrderMailer < Spree::BaseMailer
     default from: Spree::Store.default.mail_from_address
@@ -9,7 +11,7 @@ module Spree
         name: Spree::Store.current.name, number: @shipment.number)
 
       mail to: @supplier.user.email,
-           subject: subject
+        subject: subject
     end
   end
 end

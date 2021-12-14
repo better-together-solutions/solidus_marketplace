@@ -11,8 +11,8 @@ module Spree
     accepts_nested_attributes_for :address
 
     if defined?(Ckeditor::Asset)
-      has_many :ckeditor_pictures
-      has_many :ckeditor_attachment_files
+      has_many :ckeditor_pictures, dependent: :destroy
+      has_many :ckeditor_attachment_files, dependent: :destroy
     end
 
     has_many :supplier_variants, dependent: :destroy
@@ -20,13 +20,13 @@ module Spree
     has_many :products, through: :variants
     has_many :stock_locations, dependent: :destroy
     has_many :shipments, through: :stock_locations
-    has_many :admins, class_name: Spree.user_class.to_s
+    has_many :admins, class_name: Spree.user_class.to_s, dependent: :destroy
     accepts_nested_attributes_for :admins
 
     validates :commission_flat_rate, presence: true
     validates :commission_percentage, presence: true
     validates :name, presence: true, uniqueness: true
-    validates :url, format: { with: URI::regexp(%w(http https)), allow_blank: true }
+    validates :url, format: { with: URI::DEFAULT_PARSER.make_regexp(%w(http https)), allow_blank: true }
 
     before_validation :check_url
 
@@ -59,33 +59,33 @@ module Spree
     protected
 
     def check_url
-      unless self.url.blank? or self.url =~ URI::regexp(%w(http https))
-        self.url = "http://#{self.url}"
-      end
+      return if url.blank? || url =~ (URI::DEFAULT_PARSER.make_regexp(%w(http https)))
+
+      self.url = "http://#{url}"
     end
 
     def create_stock_location
-      if self.stock_locations.empty?
-        location = self.stock_locations.build(
-          active: true,
-          country_id: self.address.try(:country_id),
-          name: self.name,
-          state_id: self.address.try(:state_id)
-        )
-        # It's important location is always created.  Some apps add validations that shouldn't break this.
-        location.save validate: false
-      end
+      return unless stock_locations.empty?
+
+      location = stock_locations.build(
+        active: true,
+        country_id: address.try(:country_id),
+        name: name,
+        state_id: address.try(:state_id)
+      )
+      # It's important location is always created.  Some apps add validations that shouldn't break this.
+      location.save validate: false
     end
 
     def send_welcome; end
 
     def set_commission
-      unless changes.has_key?(:commission_flat_rate)
-        self.commission_flat_rate = SolidusMarketplace::Config[:default_commission_flat_rate]
-      end
-      unless changes.has_key?(:commission_percentage)
-        self.commission_percentage = SolidusMarketplace::Config[:default_commission_percentage]
-      end
+      return if changes.key?(:commission_flat_rate)
+
+      self.commission_flat_rate = SolidusMarketplace::Config[:default_commission_flat_rate]
+      return if changes.key?(:commission_percentage)
+
+      self.commission_percentage = SolidusMarketplace::Config[:default_commission_percentage]
     end
   end
 end

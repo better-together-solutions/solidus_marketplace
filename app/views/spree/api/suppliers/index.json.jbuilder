@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.suppliers(@suppliers) do |supplier|
   json.partial!("spree/api/suppliers/supplier", supplier: supplier)
 end

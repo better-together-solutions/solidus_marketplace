@@ -5,7 +5,7 @@ module SolidusMarketplace
     module ProductDecorator
       def self.prepended(base)
         base.has_many :suppliers, -> { readonly }, through: :master
-        base.scope :of_supplier, -> (supplier_id) { joins(:suppliers).where('spree_suppliers.id = ?', supplier_id) }
+        base.scope :of_supplier, ->(supplier_id) { joins(:suppliers).where('spree_suppliers.id = ?', supplier_id) }
       end
 
       def add_supplier!(supplier_or_id)
@@ -34,21 +34,23 @@ module SolidusMarketplace
 
       def populate_for_supplier!(supplier)
         variants_including_master.each do |variant|
-          unless variant.suppliers.pluck(:id).include?(supplier.id)
-            variant.suppliers << supplier
-            supplier.stock_locations.each { |location| location.propagate_variant(variant) unless location.stock_item(variant) }
-          end
+          next if variant.suppliers.pluck(:id).include?(supplier.id)
+
+          variant.suppliers << supplier
+          supplier.stock_locations.each { |location|
+            location.propagate_variant(variant) unless location.stock_item(variant)
+          }
         end
       end
 
       def unpopulate_for_supplier!(supplier)
         variants_including_master.each do |variant|
-          if variant.suppliers.pluck(:id).include?(supplier.id)
-            variant.suppliers.delete(supplier)
+          next unless variant.suppliers.pluck(:id).include?(supplier.id)
 
-            supplier.stock_locations.each do |location|
-              location.unpropagate_variant(variant)
-            end
+          variant.suppliers.delete(supplier)
+
+          supplier.stock_locations.each do |location|
+            location.unpropagate_variant(variant)
           end
         end
       end

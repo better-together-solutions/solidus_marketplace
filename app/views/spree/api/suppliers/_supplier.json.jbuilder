@@ -1,1 +1,3 @@
-json.(supplier, *supplier_attributes)
+# frozen_string_literal: true
+
+json.call(supplier, *supplier_attributes)

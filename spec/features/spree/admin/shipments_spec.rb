@@ -2,10 +2,10 @@
 
 describe 'Admin - Shipments', type: :feature, js: true do
   let!(:order) do
-    order = build(:order_from_supplier_ready_to_ship,
-                  state: 'complete',
-                  completed_at: '2011-02-01 12:36:15',
-                  number: 'R100')
+    build(:order_from_supplier_ready_to_ship,
+      state: 'complete',
+      completed_at: '2011-02-01 12:36:15',
+      number: 'R100')
   end
   let!(:supplier) { create(:supplier) }
   let!(:product) do
@@ -15,12 +15,12 @@ describe 'Admin - Shipments', type: :feature, js: true do
   end
   let!(:shipment) do
     create(:shipment,
-           order: order,
-           stock_location: supplier.stock_locations.first)
+      order: order,
+      stock_location: supplier.stock_locations.first)
   end
-  let!(:shipping_method) { create(:shipping_method, name: 'Default') }
+  let(:shipping_method) { create(:shipping_method, name: 'Default') }
 
-  context 'as Supplier' do
+  describe 'as Supplier' do
     before do
       # Adjust qoh so shipment will be ready
       shipment.stock_location.stock_items.where(variant_id: product.master.id).
@@ -32,7 +32,7 @@ describe 'Admin - Shipments', type: :feature, js: true do
       shipment.update_amounts
 
       # TODO this is a hack until capture_on_dispatch finished https://github.com/spree/spree/issues/4727
-      shipment.update_attribute :state, 'ready'
+      shipment.update state: 'ready'
 
       user = create(:user, supplier: supplier)
       user.generate_spree_api_key!
@@ -41,7 +41,7 @@ describe 'Admin - Shipments', type: :feature, js: true do
       visit spree.edit_admin_shipment_path(shipment)
     end
 
-    context 'edit page' do
+    context 'when edit page' do
       xit 'can add tracking information' do
         within '.table tr.show-tracking' do
           click_icon :edit
@@ -67,11 +67,17 @@ describe 'Admin - Shipments', type: :feature, js: true do
         expect(page).to have_content('Default $0.00')
       end
 
-      xit 'can ship a completed order' do
+      xit 'show shipped message' do
         click_on 'Ship'
         wait_for_ajax
 
         expect(page).to have_content('shipped package')
+      end
+
+      xit 'can ship a completed order' do
+        click_on 'Ship'
+        wait_for_ajax
+
         expect(order.reload.shipment_state).to eq 'shipped'
       end
     end

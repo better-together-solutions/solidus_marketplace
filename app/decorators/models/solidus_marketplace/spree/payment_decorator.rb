@@ -4,7 +4,7 @@ module SolidusMarketplace
   module Spree
     module PaymentDecorator
       def self.prepended(base)
-        base.belongs_to :payable, polymorphic: true,  optional: true
+        base.belongs_to :payable, polymorphic: true, optional: true
       end
 
       ::Spree::Payment.prepend self

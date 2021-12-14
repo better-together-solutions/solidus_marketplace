@@ -29,14 +29,14 @@ Gem::Specification.new do |spec|
   spec.executables = files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_dependency 'deface', '~> 1.0'
   spec.add_dependency 'solidus_core', ['>= 2.2', '< 3']
   spec.add_dependency 'solidus_support', '~> 0.5'
-  spec.add_dependency 'deface', '~> 1.0'
 
-  spec.add_development_dependency 'simplecov'
   spec.add_development_dependency 'coffee-rails'
   spec.add_development_dependency 'poltergeist'
   spec.add_development_dependency 'sass-rails'
+  spec.add_development_dependency 'simplecov'
   spec.add_development_dependency 'solidus_dev_support', '~> 2.2'
   spec.add_development_dependency 'vcr'
   spec.add_development_dependency 'webmock'

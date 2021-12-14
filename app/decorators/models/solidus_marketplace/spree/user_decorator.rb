@@ -18,10 +18,10 @@ module SolidusMarketplace
       end
 
       def market_maker?
-        has_admin_role?
+        admin_role?
       end
 
-      def has_admin_role?
+      def admin_role?
         spree_roles.map(&:name).include?("admin")
       end
 

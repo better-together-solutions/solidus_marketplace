@@ -13,14 +13,16 @@ module SolidusMarketplace
 
       def create_stock_items
         ::Spree::StockLocation.all.each do |stock_location|
-          if stock_location.supplier_id.blank? || self.suppliers.pluck(:id).include?(stock_location.supplier_id)
-            stock_location.propagate_variant(self) if stock_location.propagate_all_variants?
+          # rubocop:disable Layout/LineLength
+          if (stock_location.supplier_id.blank? || suppliers.pluck(:id).include?(stock_location.supplier_id)) && stock_location.propagate_all_variants?
+            # rubocop:enable Layout/LineLength
+            stock_location.propagate_variant(self)
           end
         end
       end
 
       def populate_for_suppliers
-        self.suppliers = self.product.suppliers
+        self.suppliers = product.suppliers
       end
 
       ::Spree::Variant.prepend self

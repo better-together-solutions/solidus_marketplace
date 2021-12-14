@@ -7,16 +7,15 @@ module Ckeditor
       base.after_filter :set_supplier, only: [:create]
     end
 
-    def index
-    end
+    def index; end
 
     private
 
     def set_supplier
-      if spree_current_user.supplier? and @picture
-        @picture.supplier = spree_current_user.supplier
-        @picture.save
-      end
+      return unless spree_current_user.supplier? && @picture
+
+      @picture.supplier = spree_current_user.supplier
+      @picture.save
     end
 
     if defined?(Ckeditor::PicturesController)

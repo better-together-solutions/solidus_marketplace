@@ -14,6 +14,6 @@ class CreateSpreeSupplierVariants < SolidusSupport::Migration[4.2]
       product.add_supplier! product.supplier_id
     end
 
-    remove_column :spree_products, :supplier_id
+    remove_column :spree_products, :supplier_id, :integer
   end
 end
