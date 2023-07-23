@@ -12,16 +12,16 @@ Gem::Specification.new do |s|
   s.description = 'Adds marketplace functionality to Solidus stores.'
   s.required_ruby_version = '>= 2.0'
 
-  s.author = 'Jonathan Tapia'
-  s.email = 'jonathan.tapia@magmalabs.io'
-  s.homepage = 'https://github.com/jtapia/solidus_marketplace'
+  s.author = 'Robert Smith'
+  s.email = 'rob@bettertogethersolutions.com'
+  s.homepage = 'https://github.com/better-together-solutions/solidus_marketplace'
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_dependency 'solidus', ['>= 2.2', '< 3']
+  s.add_dependency 'solidus', ['>= 4.0', '< 5']
   s.add_dependency 'solidus_support'
   s.add_dependency 'deface', '~> 1.0'
 

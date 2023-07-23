@@ -3,20 +3,20 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-branch = ENV.fetch('SOLIDUS_BRANCH', 'master')
-gem 'solidus', github: 'solidusio/solidus', branch: branch
+gem 'solidus', "~> 4.1"
 
 # Needed to help Bundler figure out how to resolve dependencies,
 # otherwise it takes forever to resolve them.
 # See https://github.com/bundler/bundler/issues/6677
-gem 'rails', '>0.a'
+gem 'rails', '~> 7.0'
 
 # Provides basic authentication functionality for testing parts of your engine
 gem 'solidus_auth_devise'
 
 # gem 'solidus_reports', github: 'solidusio-contrib/solidus_reports'
 
-case ENV['DB']
+db = ENV.fetch('db', 'postgresql')
+case db
 when 'mysql'
   gem 'mysql2'
 when 'postgresql'
