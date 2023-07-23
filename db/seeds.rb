@@ -7,3 +7,5 @@ default_path = File.join(File.dirname(__FILE__), 'default')
   puts "Loading seed file: #{seed}"
   require_relative "default/spree/#{seed}"
 end
+Spree::Core::Engine.load_seed
+Spree::Auth::Engine.load_seed
