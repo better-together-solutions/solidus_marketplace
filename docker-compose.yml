@@ -1,8 +1,7 @@
-version: '3.4'
+version: '3.6'
 
 volumes:
   solidus-marketplace-db-data:
-  solidus-marketplace-redis:
   solidus-marketplace-bundler-gems:
 
 x-env-info: &env-info
@@ -22,7 +21,7 @@ services:
     <<: *app-shared
     container_name: solidus-marketplace-app
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f spec/dummy/tmp/pids/server.pid && cd ./spec/dummy && bundle exec rails s -p 3000 -b '0.0.0.0'"
     stdin_open: true
     tty: true
     ports:
@@ -35,7 +34,3 @@ services:
       - solidus-marketplace-db-data:/var/lib/postgresql/data
     ports:
       - 5456:5432
-  stripe:
-    <<: *env-info
-    image: 'stripe/stripe-cli:latest'
-    command: 'listen --forward-to http://localhost:3000/solidus_stripe/test/webhooks'
