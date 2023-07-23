@@ -8,7 +8,7 @@ module SolidusMarketplace
         base.has_many :payments, as: :payable
         base.scope :by_supplier, -> (supplier_id) { joins(:stock_location).where(spree_stock_locations: { supplier_id: supplier_id }) }
         base.delegate :supplier, to: :stock_location
-        base.whitelisted_ransackable_attributes = ["number", "state"]
+        base.allowed_ransackable_attributes = ["number", "state"]
       end
 
       def display_final_price_with_items
