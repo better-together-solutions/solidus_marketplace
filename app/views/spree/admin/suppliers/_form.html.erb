@@ -22,7 +22,7 @@
           <% end %>
         </div>
 
-        <% if try_spree_current_user.has_admin_role? %>
+        <% if spree_current_user.has_admin_role? %>
           <div data-hook='admin_supplier_form_commission_users'>
             <%= f.field_container :admins do %>
               <%= f.label :admins %>
@@ -54,7 +54,7 @@
           <% end %>
         </div>
 
-        <% if try_spree_current_user.has_admin_role? %>
+        <% if spree_current_user.has_admin_role? %>
           <div data-hook='admin_supplier_form_commission_flat_rate'>
             <%= f.field_container :commission_flat_rate do %>
               <%= f.label Spree::Supplier.human_attribute_name(:commission_flat_rate) %>

@@ -69,24 +69,24 @@ module SolidusMarketplace
 
         # Scopes the collection to what the user should have access to, based on the user's role
         def supplier_collection
-          return unless try_spree_current_user
+          return unless spree_current_user
 
-          if try_spree_current_user.supplier?
-            @collection = @collection.joins(:suppliers).where('spree_suppliers.id = ?', try_spree_current_user.supplier_id)
+          if spree_current_user.supplier?
+            @collection = @collection.joins(:suppliers).where('spree_suppliers.id = ?', spree_current_user.supplier_id)
           end
         end
 
         # Newly added products by a Supplier are associated with it.
         def add_product_to_supplier
-          if try_spree_current_user&.supplier?
-           @product.add_supplier!(try_spree_current_user.supplier_id)
+          if spree_current_user&.supplier?
+           @product.add_supplier!(spree_current_user.supplier_id)
           elsif user_admin?
             @product.add_suppliers!(new_supplier_ids)
           end
         end
 
         def user_admin?
-          try_spree_current_user.admin?
+          spree_current_user.admin?
         end
 
         ::Spree::Admin::ProductsController.prepend self

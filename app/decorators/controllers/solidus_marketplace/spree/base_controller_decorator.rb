@@ -10,7 +10,8 @@ module SolidusMarketplace
       private
 
       def redirect_supplier
-        if ['/admin', '/admin/authorization_failure'].include?(request.path) && try_spree_current_user.try(:supplier)
+        spree_current_user_is_supplier = spree_current_user && spree_current_user.try(:supplier)
+        if ['/admin', '/admin/authorization_failure'].include?(request.path) && spree_current_user_is_supplier
           redirect_to '/admin/shipments' and return false
         end
       end

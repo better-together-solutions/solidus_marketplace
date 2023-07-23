@@ -67,8 +67,8 @@ describe 'Admin - Suppliers', type: :feature, js: true do
     let!(:user) { create(:supplier_admin) }
 
     before do
-      allow_any_instance_of(Spree::Admin::SuppliersController).to receive_messages(try_spree_current_user: user)
-      allow_any_instance_of(Spree::OrdersController).to receive_messages(try_spree_current_user: user)
+      allow_any_instance_of(Spree::Admin::SuppliersController).to receive_messages(spree_current_user: user)
+      allow_any_instance_of(Spree::OrdersController).to receive_messages(spree_current_user: user)
       visit spree.edit_admin_supplier_path(user.supplier)
     end
 

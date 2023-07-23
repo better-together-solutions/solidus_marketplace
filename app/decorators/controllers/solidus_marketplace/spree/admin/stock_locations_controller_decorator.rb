@@ -20,8 +20,8 @@ module SolidusMarketplace
         private
 
         def set_supplier
-          if try_spree_current_user.supplier?
-            @object.supplier = try_spree_current_user.supplier
+          if spree_current_user.supplier?
+            @object.supplier = spree_current_user.supplier
             @object.save
           end
         end

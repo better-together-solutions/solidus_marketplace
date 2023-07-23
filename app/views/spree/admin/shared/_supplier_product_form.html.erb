@@ -1,4 +1,4 @@
-<% if try_spree_current_user.market_maker? %>
+<% if spree_current_user.market_maker? %>
   <div data-hook="admin_product_form_suppliers">
     <%= f.field_container :suppliers do %>
       <%= f.label :supplier_ids, plural_resource_name(Spree::Supplier) %><br />

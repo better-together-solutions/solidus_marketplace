@@ -13,8 +13,8 @@ module Ckeditor
     private
 
     def set_supplier
-      if try_spree_current_user.supplier? and @attachment
-        @attachment.supplier = try_spree_current_user.supplier
+      if spree_current_user.supplier? and @attachment
+        @attachment.supplier = spree_current_user.supplier
         @attachment.save
       end
     end
