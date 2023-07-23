@@ -39,7 +39,7 @@ module SolidusMarketplace
           config.menu_items << ::Spree::BackendConfiguration::MenuItem.new(
             [:stock_locations],
             'globe',
-            condition: -> { can?(:index, ::Spree::StockLocation) },
+            condition: -> { spree_current_user && can?(:index, ::Spree::StockLocation) },
           )
 
           config.menu_items << ::Spree::BackendConfiguration::MenuItem.new(
