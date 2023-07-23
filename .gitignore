@@ -9,6 +9,7 @@
 .ruby-version
 .sass-cache
 coverage
+docker-env.conf
 Gemfile.lock
 tmp
 nbproject
