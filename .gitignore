@@ -10,11 +10,11 @@
 .sass-cache
 coverage
 docker-env.conf
-Gemfile.lock
+# Gemfile.lock
 tmp
 nbproject
 pkg
 *.swp
-spec/dummy
+# spec/dummy
 spec/vcr_cassettes
 spec/examples.txt
