@@ -1,6 +1,14 @@
 # SolidusMarketplace
 
-[![Build Status](https://travis-ci.org/jtapia/solidus_marketplace.svg?branch=master)](https://travis-ci.org/jtapia/solidus_marketplace)
+# NOTE: This gem is currently a work-in-progress. 
+Contributors are welcome to help us get this gem to a viable MVP.
+We suggest installing [ZenHub](http://zenhub.com) in order to view/manage open issues. 
+This will give you a new tab in Github called "Boards", which provides a Kanban-style view of the project's issues.
+
+# Fork Purpose
+This fork is intended to update this extension for use with Rails 7 and Solidus 4.1
+
+# Overview
 
 This is marketplace implementation for solidus.
 
@@ -16,7 +24,7 @@ Basic functionality:
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'solidus_marketplace', github: 'jtapia/solidus_marketplace'
+gem 'solidus_marketplace', github: 'better-together-solutions/solidus_marketplace'
 ```
 
 Then run the following:
