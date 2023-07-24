@@ -20,14 +20,14 @@ Deface::Override.new(
     text: "<% if spree_current_user.admin? && @shipment.supplier.present? %>
             <div data-hook='admin_shipment_supplier' class='row'>
               <fieldset class='col-md-12 no-border-bottom'>
-                <legend align='center'><%= Spree.t(:supplier_information) %></legend>
+                <legend align='center'><%= t(:supplier_information) %></legend>
                 <div>
                   <b><%= Spree::Supplier.human_attribute_name(:name) %>:</b> <%= @shipment.supplier.name %><br/>
                   <b><%= Spree::Supplier.human_attribute_name(:email) %>:</b> <%= @shipment.supplier.user.email %><br/>
                   <b><%= Spree::Supplier.human_attribute_name(:url) %>:</b> <%= link_to @shipment.supplier.url, @shipment.supplier.url if @shipment.supplier.url.present? %><br/>
                 </div>
                 <div>
-                  <b><%= Spree.t('contact_information') %>:</b>
+                  <b><%= t('contact_information') %>:</b>
                 </div>
                 <%= render partial: 'spree/shared/address', locals: { address: @shipment.supplier.address } %>
               </fieldset>

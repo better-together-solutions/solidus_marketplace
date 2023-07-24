@@ -11,17 +11,17 @@ module SolidusMarketplace
         base.allowed_ransackable_attributes = ["number", "state"]
       end
 
-      def display_final_price_with_items
-        Spree::Money.new final_price_with_items
+      def display_total_with_items
+        Spree::Money.new total_with_items
       end
 
-      def final_price_with_items
-        self.item_cost + self.final_price
-      end
+      # def total_with_items
+      #   self.item_cost + self.total
+      # end
 
       # TODO move commission to spree_marketplace?
       def supplier_commission_total
-        ((self.final_price_with_items * self.supplier.commission_percentage / 100) + self.supplier.commission_flat_rate)
+        ((self.total_with_items * self.supplier.commission_percentage / 100) + self.supplier.commission_flat_rate)
       end
 
       private

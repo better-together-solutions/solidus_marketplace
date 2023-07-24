@@ -59,7 +59,7 @@
       <th><%= sort_link @search, :item_cost,  Spree::Shipment.human_attribute_name(:item_cost) %></th>
       <th><%= sort_link @search, :shipping_total,  Spree::Shipment.human_attribute_name(:cost) %></th>
       <th><%= sort_link @search, :tax_total,  Spree::Shipment.human_attribute_name(:tax_total) %></th>
-      <th><%= sort_link @search, :total,  Spree::Shipment.human_attribute_name(:final_price) %></th>
+      <th><%= sort_link @search, :total,  Spree::Shipment.human_attribute_name(:total) %></th>
       <th><%= sort_link @search, :supplier_commission,  Spree::Shipment.human_attribute_name(:supplier_commission) %></th>
       <th data-hook="admin_shipments_index_header_actions" class="actions"></th>
     </tr>
@@ -73,7 +73,7 @@
         <td> <%= shipment.display_item_cost.to_html %></td>
         <td ><%= shipment.display_cost.to_html %></td>
         <td><%= Spree::Money.new(shipment.tax_total, currency: shipment.currency).to_html %></td>
-        <td><%= Spree::Money.new(shipment.final_price_with_items, currency: shipment.currency).to_html %></td>
+        <td><%= Spree::Money.new(shipment.total_with_items, currency: shipment.currency).to_html %></td>
         <td><%= Spree::Money.new(shipment.supplier_commission, currency: shipment.currency).to_html %></td>
         <td data-hook="admin_shipments_index_row_actions">
           <%= link_to_edit_url spree.edit_admin_shipment_path(shipment), :title => "admin_edit_#{dom_id(shipment)}", :no_text => true %>
