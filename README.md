@@ -2,8 +2,6 @@
 
 # NOTE: This gem is currently a work-in-progress. 
 Contributors are welcome to help us get this gem to a viable MVP.
-We suggest installing [ZenHub](http://zenhub.com) in order to view/manage open issues. 
-This will give you a new tab in Github called "Boards", which provides a Kanban-style view of the project's issues.
 
 # Fork Purpose
 This fork is intended to update this extension for use with Rails 7 and Solidus 4.1
