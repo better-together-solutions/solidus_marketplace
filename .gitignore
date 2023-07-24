@@ -9,10 +9,12 @@
 .ruby-version
 .sass-cache
 coverage
-Gemfile.lock
+docker-env.conf
+# Gemfile.lock
 tmp
 nbproject
 pkg
 *.swp
-spec/dummy
+# spec/dummy
 spec/vcr_cassettes
+spec/examples.txt

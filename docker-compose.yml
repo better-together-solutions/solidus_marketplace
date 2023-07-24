@@ -1,0 +1,36 @@
+version: '3.6'
+
+volumes:
+  solidus-marketplace-db-data:
+  solidus-marketplace-bundler-gems:
+
+x-env-info: &env-info
+  env_file:
+    - './docker-env.conf'
+
+x-app-shared: &app-shared
+  <<: *env-info
+  image: solidus-marketplace:latest
+  volumes:
+    - .:/solidus-marketplace
+    - solidus-marketplace-bundler-gems:/usr/local/bundle/
+  depends_on:
+    - db
+services:
+  app: &app
+    <<: *app-shared
+    container_name: solidus-marketplace-app
+    build: .
+    command: bash -c "rm -f spec/dummy/tmp/pids/server.pid && cd ./spec/dummy && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    stdin_open: true
+    tty: true
+    ports:
+      - "3000:3000"
+  db:
+    <<: *env-info
+    image: postgres:latest
+    container_name: solidus-marketplace-db
+    volumes:
+      - solidus-marketplace-db-data:/var/lib/postgresql/data
+    ports:
+      - 5456:5432

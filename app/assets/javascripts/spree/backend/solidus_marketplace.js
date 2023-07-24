@@ -1,4 +1,4 @@
-//= require spree/backend
+// require spree/backend
 // Shipments AJAX API
 
 //= require spree/backend/solidus_marketplace_routes

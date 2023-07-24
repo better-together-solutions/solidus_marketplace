@@ -1,0 +1,5 @@
+<% if spree_current_user.supplier? %>
+  <%= order.supplier_total(spree_current_user).to_html %>
+<% else %>
+  <%= order.display_total.to_html %>
+<% end %>
